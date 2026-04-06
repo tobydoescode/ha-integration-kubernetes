@@ -1,0 +1,81 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Kubernetes Cluster",
+        "description": "Paste your kubeconfig contents below. The kubeconfig should use embedded certificate data (not file path references).",
+        "data": {
+          "kubeconfig": "Kubeconfig (YAML)"
+        }
+      },
+      "options": {
+        "title": "Options",
+        "data": {
+          "namespaces": "Namespaces (comma-separated, blank for all)",
+          "label_selector": "Label selector for resource discovery",
+          "scan_interval": "Polling interval (seconds)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to Kubernetes cluster. Check your kubeconfig.",
+      "invalid_kubeconfig": "Invalid kubeconfig YAML.",
+      "file_references": "Kubeconfig uses file path references. Please use a kubeconfig with embedded certificate data.",
+      "unknown": "An unexpected error occurred."
+    },
+    "abort": {
+      "already_configured": "This cluster is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "namespaces": "Namespaces (comma-separated, blank for all)",
+          "label_selector": "Label selector for resource discovery",
+          "scan_interval": "Polling interval (seconds)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "rollout_in_progress": {
+        "name": "Rollout In Progress"
+      }
+    },
+    "sensor": {
+      "ready_pods": {
+        "name": "Ready Pods"
+      },
+      "desired_replicas": {
+        "name": "Desired Replicas"
+      },
+      "available_pods": {
+        "name": "Available Pods"
+      },
+      "container_image": {
+        "name": "Container Image"
+      },
+      "last_restart": {
+        "name": "Last Restart"
+      },
+      "pod_restart_count": {
+        "name": "Pod Restart Count"
+      },
+      "last_restart_reason": {
+        "name": "Last Restart Reason"
+      }
+    },
+    "button": {
+      "rollout_restart": {
+        "name": "Rollout Restart"
+      }
+    },
+    "number": {
+      "replicas": {
+        "name": "Replicas"
+      }
+    }
+  }
+}

@@ -1,0 +1,68 @@
+version: "3"
+
+tasks:
+  sync:
+    desc: Install dependencies
+    cmds:
+      - uv sync --all-extras
+
+  pre-commit:install:
+    desc: Install pre-commit hooks
+    cmds:
+      - uv run pre-commit install
+
+  lint:
+    desc: Run ruff linter and formatter check
+    cmds:
+      - uv run ruff check custom_components/ tests/
+      - uv run ruff format --check custom_components/ tests/
+
+  lint:fix:
+    desc: Fix lint and formatting issues
+    cmds:
+      - uv run ruff check --fix custom_components/ tests/
+      - uv run ruff format custom_components/ tests/
+
+  test:
+    desc: Run tests
+    cmds:
+      - uv run pytest tests/ -v
+
+  kind:create:
+    desc: Create a Kind cluster for testing
+    cmds:
+      - kind create cluster --name ha-test --config tests/fixtures/kind-config.yaml
+      - kubectl apply -f tests/fixtures/nginx.yaml
+      - echo "Waiting for nginx pods to be ready..."
+      - kubectl rollout status deployment/nginx --timeout=60s
+
+  kind:kubeconfig:
+    desc: Print kubeconfig for the Kind cluster (with host.docker.internal)
+    cmds:
+      - |
+        kind get kubeconfig --name ha-test | sed 's|https://127\.0\.0\.1|https://host.docker.internal|g'
+
+  kind:delete:
+    desc: Delete the Kind test cluster
+    cmds:
+      - kind delete cluster --name ha-test
+
+  dev:
+    desc: Start Home Assistant dev instance
+    cmds:
+      - docker compose up -d
+
+  dev:stop:
+    desc: Stop Home Assistant dev instance
+    cmds:
+      - docker compose down
+
+  dev:restart:
+    desc: Restart Home Assistant (after code changes)
+    cmds:
+      - docker compose restart
+
+  dev:logs:
+    desc: Tail Home Assistant logs
+    cmds:
+      - docker compose logs -f homeassistant
