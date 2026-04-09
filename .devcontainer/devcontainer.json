@@ -1,6 +1,6 @@
 {
   "name": "Home Assistant Kubernetes Integration",
-  "image": "ghcr.io/home-assistant/devcontainer:2025.3",
+  "image": "ghcr.io/home-assistant/devcontainer:2026.4",
   "forwardPorts": [8123],
   "postCreateCommand": "pip install uv && uv sync --all-extras",
   "mounts": [
